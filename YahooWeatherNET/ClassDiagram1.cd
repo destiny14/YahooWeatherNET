@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="YahooWeatherNET.WeatherItem">
+    <Position X="6" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAgAEAACAIAAAgAAAQAAAAAEAAEQAACAAg=</HashCode>
+      <FileName>WeatherItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="YahooWeatherNET.AstronomyInfo">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>WeatherItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="YahooWeatherNET.AtmosphereConditions">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAABAAAAAAAAAAACAAAAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>WeatherItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="YahooWeatherNET.WindConditions">
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAACAAAAABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WeatherItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="YahooWeatherNET.WeatherLocation">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAgAAAAAAIAAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WeatherItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="YahooWeatherNET.MeasurementUnits">
+    <Position X="2.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAABAAAAAABAAAAAAgAEAAA=</HashCode>
+      <FileName>WeatherItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="YahooWeatherNET.WeatherCondition">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAgAAAAAAAAAAABAAAACAAEAAA=</HashCode>
+      <FileName>WeatherItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="YahooWeatherNET.WeatherForecast">
+    <Position X="2.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAIAAAAAAAAAAgCAAAQAAAAAABAAAACAAAAAA=</HashCode>
+      <FileName>WeatherItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="YahooWeatherNET.GeoLocation">
+    <Position X="4" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>WeatherItem.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="YahooWeatherNET.YahooWeatherProvider">
+    <Position X="8" Y="2.5" Width="2.5" />
+    <Members>
+      <Field Name="_TemperatureUnit" Hidden="true" />
+      <Field Name="_WeatherCode" Hidden="true" />
+      <Field Name="geo" Hidden="true" />
+      <Method Name="GetValueFromGeoItem" Hidden="true" />
+      <Method Name="GetValueFromYWeatherItem" Hidden="true" />
+      <Method Name="ParseReport" Hidden="true" />
+      <Field Name="xmlns" Hidden="true" />
+      <Field Name="yweather" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AABAAFBQAKAAMAAAAAAgQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>YahooWeatherProvider.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="YahooWeatherNET.TemperatureUnit">
+    <Position X="4" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>YahooWeatherProvider.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
