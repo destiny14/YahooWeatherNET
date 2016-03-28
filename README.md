@@ -1,4 +1,6 @@
 # YahooWeatherNET
+[![Build Status](https://travis-ci.org/destiny14/YahooWeatherNET.svg?branch=master)](https://travis-ci.org/destiny14/YahooWeatherNET)
+
 An easy-to-use .NET wrapper for the Yahoo Weather API. Now with OAuth Support!
 
 **ATTENTION:** [Yahoo APIs ToS](https://policies.yahoo.com/us/en/yahoo/terms/product-atos/apiforydn/index.htm) and [Yahoo Attribution Guidelines](https://developer.yahoo.com/attribution/) apply if you use this library/the API within your application!
