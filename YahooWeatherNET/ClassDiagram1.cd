@@ -66,8 +66,6 @@
   <Class Name="YahooWeatherNET.YahooWeatherProvider">
     <Position X="8" Y="2.5" Width="2.5" />
     <Members>
-      <Field Name="_TemperatureUnit" Hidden="true" />
-      <Field Name="_WeatherCode" Hidden="true" />
       <Field Name="geo" Hidden="true" />
       <Method Name="GetValueFromGeoItem" Hidden="true" />
       <Method Name="GetValueFromYWeatherItem" Hidden="true" />
@@ -79,14 +77,14 @@
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AABAAFBQAKAAMAAAAAAgQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AABAAFBQAAAAMAAAAAAgQACAAAgAAAAAAAEIAAAAAAA=</HashCode>
       <FileName>YahooWeatherProvider.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Enum Name="YahooWeatherNET.TemperatureUnit">
     <Position X="4" Y="4.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAIAAAAAAAAAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>YahooWeatherProvider.cs</FileName>
     </TypeIdentifier>
   </Enum>
