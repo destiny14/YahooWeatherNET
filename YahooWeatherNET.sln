@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YahooWeatherNET", "YahooWeatherNET\YahooWeatherNET.csproj", "{60DF7F76-3D56-4DD5-95D1-AF0BBF30A285}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YahooWeatherNETSample", "YahooWeatherNETSample\YahooWeatherNETSample.csproj", "{8C16FC61-18F1-4091-8E66-6DF0F75263FB}"
