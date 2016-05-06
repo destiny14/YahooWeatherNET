@@ -178,6 +178,14 @@ namespace YahooWeatherNET
             weatherItem.Link = (from x in xDocument.Descendants("channel").Descendants("item").Descendants("link") select x.Value).Single();
             weatherItem.Published = (from x in xDocument.Descendants("channel").Descendants("item").Descendants("pubDate") select x.Value).Single();
 
+            WeatherCondition currentCondition = new WeatherCondition();
+            currentCondition.Code = GetValueFromCurrentConditionItem("code", xDocument);
+            currentCondition.Date = GetValueFromCurrentConditionItem("date", xDocument);
+            currentCondition.Temperature = GetValueFromCurrentConditionItem("temp", xDocument);
+            currentCondition.Text = GetValueFromCurrentConditionItem("text", xDocument);
+
+            weatherItem.CurrentCondition = currentCondition;
+
             List<WeatherForecast> forecasts = new List<WeatherForecast>();
             var locForecast = from x in xDocument.Descendants("channel").Descendants("item").Descendants(yweather + "forecast") select x;
             foreach (XElement el in locForecast)
@@ -205,6 +213,11 @@ namespace YahooWeatherNET
         private string GetValueFromGeoItem(string _descendantName, XDocument _doc)
         {
             return (from x in _doc.Descendants("channel").Descendants("item").Descendants(geo + _descendantName) select x.Value).Single();
+        }
+
+        private string GetValueFromCurrentConditionItem(string _attrName, XDocument _doc)
+        {
+            return (from x in _doc.Descendants("channel").Descendants("item").Descendants(yweather + "condition") select x.Attribute(_attrName).Value).Single();
         }
         
     }
