@@ -217,7 +217,6 @@ namespace YahooWeatherNET
 
         private string GetValueFromCurrentConditionItem(string _attrName, XDocument _doc)
         {
-            var spew = (from x in _doc.Descendants("channel").Descendants("item").Descendants(yweather + "condition") select x);
             return (from x in _doc.Descendants("channel").Descendants("item").Descendants(yweather + "condition") select x.Attribute(_attrName).Value).Single();
         }
         
