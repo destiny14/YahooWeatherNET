@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Device.Location;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -46,7 +45,7 @@ namespace YahooWeatherNET
         /// <summary>
         /// Exact position of the location the forecast is determined to
         /// </summary>
-        public GeoCoordinate Location { get; set; }
+        public GeoLocation Location { get; set; }
         /// <summary>
         /// Link to online version
         /// </summary>
@@ -78,7 +77,7 @@ namespace YahooWeatherNET
 			    WLocation = WeatherLocation.FromJson(_jObject["location"] as JObject),
 			    Units = MeasurementUnits.FromJson(_jObject["units"] as JObject),
 			    Wind = WindConditions.FromJson(_jObject["wind"] as JObject),
-				Location = CoordinatesFromJson(_jObject["item"] as JObject),
+				Location = GeoLocation.FromJson(_jObject["item"] as JObject),
 				Link = (string)_jObject["item"]["link"],
 				Published = (string)_jObject["item"]["pubDate"],
 				Title = (string)_jObject["item"]["title"],
@@ -92,26 +91,6 @@ namespace YahooWeatherNET
 
 		    return wI;
 	    }
-
-	    private static GeoCoordinate CoordinatesFromJson(JObject _jObject)
-	    {
-		    double lat;
-		    double lon;
-
-			string strLat = (string)_jObject["lat"];
-		    string strLon = (string) _jObject["long"];
-
-			if (!double.TryParse(strLat, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out lat))
-		    {
-			    throw new GeoCoordinateConversionException("Could not convert latitude: " + _jObject["lat"]);
-		    }
-		    if (!double.TryParse(strLon, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out lon))
-		    {
-			    throw new GeoCoordinateConversionException("Could not convert longitude: " + _jObject["long"]);
-		    }
-		    return new GeoCoordinate(lat, lon);
-	    }
-
 	}
     /// <summary>
     /// Contains information about sunrise and sunset
@@ -326,7 +305,32 @@ namespace YahooWeatherNET
     /// </summary>
     public class GeoLocation
     {
-        public string Lat{ get; set; }
-        public string Long { get; set; }
+	    public GeoLocation(double _lat, double _long)
+	    {
+		    Latitude = _lat;
+		    Longitude = _long;
+	    }
+
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+
+	    public static GeoLocation FromJson(JObject _jObject)
+	    {
+			double lat;
+			double lon;
+
+			string strLat = (string)_jObject["lat"];
+			string strLon = (string)_jObject["long"];
+
+			if (!double.TryParse(strLat, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out lat))
+			{
+				throw new GeoCoordinateConversionException("Could not convert latitude: " + _jObject["lat"]);
+			}
+			if (!double.TryParse(strLon, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out lon))
+			{
+				throw new GeoCoordinateConversionException("Could not convert longitude: " + _jObject["long"]);
+			}
+			return new GeoLocation(lat, lon);
+		}
     }
 }
