@@ -18,7 +18,6 @@
                 </LinearGradientBrush>
             </TextBlock.Background>
         </TextBlock>
-        <Button x:Name="bnGetWeatherSync" Content="get weather sync..." HorizontalAlignment="Left" Margin="10,71,0,0" VerticalAlignment="Top" Width="183" Click="bnGetWeatherSync_Click" Grid.ColumnSpan="2"/>
         <TextBox x:Name="tbSearch" HorizontalAlignment="Left" Height="23" Margin="10,126,0,0" TextWrapping="Wrap" Text="search term" VerticalAlignment="Top" Width="183" Grid.ColumnSpan="2"/>
         <Label Content="search for location code:" HorizontalAlignment="Left" Margin="10,100,0,0" VerticalAlignment="Top"/>
         <Button x:Name="bnSearch" Content="search" HorizontalAlignment="Left" Margin="10,154,0,0" VerticalAlignment="Top" Width="183" Click="bnSearch_Click" Grid.ColumnSpan="2"/>

@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Device.Location;
+using System.Globalization;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json.Linq;
+using YahooWeatherNET.Exceptions;
 
 namespace YahooWeatherNET
 {
@@ -10,6 +14,11 @@ namespace YahooWeatherNET
     /// </summary>
     public class WeatherItem
     {
+	    public WeatherItem()
+	    {
+		    Forecasts = new List<WeatherForecast>();
+	    }
+
         /// <summary>
         /// Information about the location the forecast is determined to
         /// </summary>
@@ -37,7 +46,7 @@ namespace YahooWeatherNET
         /// <summary>
         /// Exact position of the location the forecast is determined to
         /// </summary>
-        public GeoLocation Location { get; set; }
+        public GeoCoordinate Location { get; set; }
         /// <summary>
         /// Link to online version
         /// </summary>
@@ -58,7 +67,52 @@ namespace YahooWeatherNET
         /// List of forecasts. Forecast for today is element 0, forecast for tomorrow is element 1
         /// </summary>
         public List<WeatherForecast> Forecasts { get; set; }
-    }
+
+	    public static WeatherItem FromJson(JObject _jObject)
+	    {
+		    var wI = new WeatherItem
+		    {
+			    Astronomy = AstronomyInfo.FromJson(_jObject["astronomy"] as JObject),
+			    Atmosphere = AtmosphereConditions.FromJson(_jObject["atmosphere"] as JObject),
+			    CurrentCondition = WeatherCondition.FromJson(_jObject["item"]["condition"] as JObject),
+			    WLocation = WeatherLocation.FromJson(_jObject["location"] as JObject),
+			    Units = MeasurementUnits.FromJson(_jObject["units"] as JObject),
+			    Wind = WindConditions.FromJson(_jObject["wind"] as JObject),
+				Location = CoordinatesFromJson(_jObject["item"] as JObject),
+				Link = (string)_jObject["item"]["link"],
+				Published = (string)_jObject["item"]["pubDate"],
+				Title = (string)_jObject["item"]["title"],
+				Description = (string)_jObject["item"]["description"]
+			};
+
+		    foreach (var forecast in _jObject["item"]["forecast"])
+		    {
+			    wI.Forecasts.Add(WeatherForecast.FromJson(forecast as JObject));
+		    }
+
+		    return wI;
+	    }
+
+	    private static GeoCoordinate CoordinatesFromJson(JObject _jObject)
+	    {
+		    double lat;
+		    double lon;
+
+			string strLat = (string)_jObject["lat"];
+		    string strLon = (string) _jObject["long"];
+
+			if (!double.TryParse(strLat, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out lat))
+		    {
+			    throw new GeoCoordinateConversionException("Could not convert latitude: " + _jObject["lat"]);
+		    }
+		    if (!double.TryParse(strLon, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign, CultureInfo.InvariantCulture, out lon))
+		    {
+			    throw new GeoCoordinateConversionException("Could not convert longitude: " + _jObject["long"]);
+		    }
+		    return new GeoCoordinate(lat, lon);
+	    }
+
+	}
     /// <summary>
     /// Contains information about sunrise and sunset
     /// </summary>
@@ -72,6 +126,14 @@ namespace YahooWeatherNET
         /// Time of sunset [hh:mm am]
         /// </summary>
         public string Sunset { get; set; }
+
+	    public static AstronomyInfo FromJson(JObject _jObject)
+	    {
+			var astronomyInfo = new AstronomyInfo();
+			astronomyInfo.Sunrise = (string)_jObject["sunrise"];
+			astronomyInfo.Sunset = (string)_jObject["sunset"];
+			return astronomyInfo;
+		}
     }
     /// <summary>
     /// Detailed information about atmosphere conditions
@@ -94,6 +156,16 @@ namespace YahooWeatherNET
         /// Trend of air pressure. 0 = steady, 1 = rising, 2 = falling
         /// </summary>
         public string Rising { get; set; }
+
+	    public static AtmosphereConditions FromJson(JObject _jObject)
+	    {
+			var atmoConditions = new AtmosphereConditions();
+			atmoConditions.Humidity = (string)_jObject["humidity"];
+			atmoConditions.Pressure = (string)_jObject["pressure"];
+			atmoConditions.Rising = (string)_jObject["rising"];
+			atmoConditions.Visibility = (string)_jObject["visibility"];
+			return atmoConditions;
+		}
     }
     /// <summary>
     /// Detailed information about wind conditions
@@ -112,6 +184,15 @@ namespace YahooWeatherNET
         /// Windspeed in mph or kph (depends on Units)
         /// </summary>
         public string Speed { get; set; }
+
+	    public static WindConditions FromJson(JObject _jObject)
+	    {
+		    var windConditions = new WindConditions();
+		    windConditions.Chill = (string) _jObject["chill"];
+		    windConditions.Direction = (string) _jObject["direction"];
+		    windConditions.Speed = (string) _jObject["speed"];
+			return windConditions;
+	    }
     }
     /// <summary>
     /// Further information about the location the forecast is determined to
@@ -124,6 +205,15 @@ namespace YahooWeatherNET
         /// </summary>
         public string Region { get; set; }
         public string Country { get; set; }
+
+	    public static WeatherLocation FromJson(JObject _jObject)
+	    {
+			var weatherLocation = new WeatherLocation();
+		    weatherLocation.City = (string) _jObject["city"];
+		    weatherLocation.Country = (string) _jObject["country"];
+		    weatherLocation.Region = (string) _jObject["region"];
+		    return weatherLocation;
+	    }
     }
     /// <summary>
     /// Units for forecast information
@@ -146,6 +236,16 @@ namespace YahooWeatherNET
         /// miles per hour (mph) or kilometers per hour (kph)
         /// </summary>
         public string Speed { get; set; }
+
+	    public static MeasurementUnits FromJson(JObject _jObject)
+	    {
+		    var units = new MeasurementUnits();
+		    units.Distance = (string) _jObject["distance"];
+		    units.Pressure = (string) _jObject["pressure"];
+		    units.Speed = (string) _jObject["speed"];
+		    units.Temperature = (string) _jObject["temperature"];
+		    return units;
+	    }
     }
     /// <summary>
     /// Current weather conditions
@@ -168,6 +268,16 @@ namespace YahooWeatherNET
         /// Exact date and time te forecast was made, in RFC822 Section 5 format
         /// </summary>
         public string Date { get; set; }
+
+	    public static WeatherCondition FromJson(JObject _jObject)
+	    {
+		    var condition = new WeatherCondition();
+		    condition.Code = (string) _jObject["code"];
+		    condition.Date = (string) _jObject["date"];
+		    condition.Temperature = (string) _jObject["temp"];
+		    condition.Text = (string) _jObject["text"];
+		    return condition;
+	    }
     }
     /// <summary>
     /// Contains information about weather forecast
@@ -198,6 +308,18 @@ namespace YahooWeatherNET
         /// Weather condition code (see http://developer.yahoo.com/weather/#codes )
         /// </summary>
         public string Code { get; set; }
+
+	    public static WeatherForecast FromJson(JObject _jObject)
+	    {
+		    var forecast = new WeatherForecast();
+		    forecast.Code = (string) _jObject["code"];
+		    forecast.Date = (string) _jObject["date"];
+		    forecast.Day = (string) _jObject["day"];
+		    forecast.HighTemperature = (string) _jObject["high"];
+		    forecast.LowTemperature = (string) _jObject["low"];
+		    forecast.Text = (string) _jObject["text"];
+		    return forecast;
+	    }
     }
     /// <summary>
     /// Exact position of location
