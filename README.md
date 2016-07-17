@@ -32,7 +32,7 @@ public class Main
     WeatherReport report = await YahooWeatherProvider.CreateReportFromLocation("Cologne");
     
     // Query the current weather conditions.
-    // This call can throw an UnknownWoeidException and a WeatherParsingException. These should be catched.
+    // This call can throw an UnknownWoeidException and a WeatherParsingException. These should be caught.
     WeatherItem wItem = await report.Query();
   }
 
