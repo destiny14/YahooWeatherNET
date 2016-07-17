@@ -7,47 +7,56 @@ An easy-to-use .NET wrapper for the Yahoo Weather API. Now with OAuth Support!
 
 You can use the YahooWeatherNET library for accessing online weather data from within your .NET application. The library makes use of the new Async/Await functionality offered by the .NET Framework, therefore the target Framework for this library is version 4.0 (asynchronous programming is available in version 4 when using the [AsyncTargetingPack](https://www.microsoft.com/en-us/download/details.aspx?id=29576)).
 
-**NEW:** As of March 15, 2016 Yahoo enforces authentication when accessing some portions of their API. You now need to register an application in the Yahoo Development Network and use the library with the client key and secret received by Yahoo.
+### Usage Instructions
 
-### Aquiring Client Key and Secret
-To aquire the client key and secret needed for authenticating with the Yahoo APIs you need to [create an application](https://developer.yahoo.com/apps/create/) inside the Yahoo Developer Network.
-There is not much to fill out but three things are worth mentioning:
-* As for "Application Type", select "Installed Application"
-* Do **not** enter a "Callback Domain"
-* Do **not** check any of the boxes below "API Permissions"
+**IMPORTANT:** As of version 2.0, the weather data can only be fetched asynchronously. If you still need synchronous access, you may use version 1.2. Instructions for version 1.2 can be found in the [wiki}(https://github.com/destiny14/YahooWeatherNET/wiki/Usage-Instructions-(v.1.2.0.0)-%5BDEPRECATED%5D).
 
-You can view your key and secret once you click the "Create Application" button.
+The following snippet will get you started:
 
-### Using YahooWeatherNET
-Using the library is quite simple:
 ```c#
 using YahooWeatherNET;
 
 public class Main
 {
   private YahooWeatherProvider m_weatherProvider;
-  private TemperatureUnit m_tempUnit = TemperatureUnit.Celsius;
-  
-  public void GetWeatherSync()
+
+  public Main()
   {
-    // the lookup is made using a location code (woeid). this method will return the location code matching your search term.
-    // you can search for cities or POIs
-    string woeid = YahooWeatherProvider.ResolveWeatherCode("Cologne");
-  
-    m_weatherProvider = new YahooWeatherProvider(woeid, m_tempUnit, "CONSUMER KEY", "CONSUMER SECRET");
-    WeatherItem wItem = m_weatherProvider.GetWeather();
+    m_weatherProvider = new YahooWeatherProvider();
   }
   
-  public async void GetWeatherAsync()
+  public async Task GetWeatherAsync()
   {
-    string woeid = YahooWeatherProvider.ResolveWeatherCode("Cologne");
-  
-    m_weatherProvider = new YahooWeatherProvider(woeid, m_tempUnit, "CONSUMER KEY", "CONSUMER SECRET");
-    WeatherItem wItem = await m_weatherProvider.GetWeatherAsync();
+    // Create a new weather report for the desired location. Note that this call has to be made asynchronously,
+    // because the location lookup is a call to the weather API. If you already have a WOEID, use .CreateReport("the woeid");
+    WeatherReport report = await YahooWeatherProvider.CreateReportFromLocation("Cologne");
+    
+    // Query the current weather conditions.
+    // This call can throw an UnknownWoeidException and a WeatherParsingException. These should be catched.
+    WeatherItem wItem = await report.Query();
   }
+
+  public async Task<string> ResolveLocationToWoeid()
+  {
+    // To manually resolve a location (town, POI or weather station) to a WOEID consumable by the API, use the LocationResolver class.
+    return await LocationResolver.ResolveLocationToWoeid("Cologne");
+  } 
 }
 ```
-Replace "CONSUMER KEY" and "CONSUMER SECRET" with the strings you aquired from the Yahoo Developer Network. Resolving woeids does not need authentication.
 
 ### Class Diagram
 ![class diagram](https://raw.githubusercontent.com/destiny14/YahooWeatherNET/master/ClassDiagram.png)
+
+### Version History & Changelog
+
+* 2.0.0.0
+  * API redesign
+    * Added WeatherReport abstraction
+    * Switched to YQL queries
+    * OAuth no longer mandatory
+    * Removed all synchronous methods
+* 1.2.0.0
+  * Added OAuth authentication
+* 1.1.0.0
+  * Fixed typos
+  * Changed location to GeoCoordinates
