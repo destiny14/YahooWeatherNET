@@ -51,13 +51,13 @@ Currently, Yahoo does not enforce OAuth authentication for the weather and locat
 
 ### Version History & Changelog
 
-* 2.0.0.0
+* [2.0.0.0](https://github.com/destiny14/YahooWeatherNET/releases/tag/2.0)
   * API redesign
     * Added WeatherReport abstraction
     * Switched to YQL queries
     * OAuth no longer mandatory
     * Removed all synchronous methods
-* 1.2.0.0
+* [1.2.0.0](https://github.com/destiny14/YahooWeatherNET/releases/tag/1.2)
   * Added OAuth authentication
 * 1.1.0.0
   * Fixed typos
