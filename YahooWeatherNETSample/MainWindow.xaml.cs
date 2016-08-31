@@ -66,12 +66,15 @@ namespace YahooWeatherNETSample
 	    private string FormatWeather(WeatherItem _item)
 	    {
 		    StringBuilder stringBuilder = new StringBuilder();
+            string pressureTrend = _item.Atmosphere.Rising == "0" ? "steady" : _item.Atmosphere.Rising == "1" ? "rising" : "falling";
+
 		    stringBuilder.AppendLine(
 			    $"weather report for {_item.WLocation.City}, {_item.WLocation.Country} (Lat: {_item.Location.Latitude}, Long: {_item.Location.Longitude})");
 		    stringBuilder.AppendLine("current conditions:");
 			// forecast [0] is the forecast for the current day
-		    stringBuilder.AppendLine($"\tTemperature: {_item.CurrentCondition.Temperature} °{_item.Units.Temperature}, Min: {_item.Forecasts[0].LowTemperature} °{_item.Units.Temperature}, Max: {_item.Forecasts[0].HighTemperature} °{_item.Units.Temperature}");
+		    stringBuilder.AppendLine($"\ttemperature: {_item.CurrentCondition.Temperature} °{_item.Units.Temperature}, Min: {_item.Forecasts[0].LowTemperature} °{_item.Units.Temperature}, Max: {_item.Forecasts[0].HighTemperature} °{_item.Units.Temperature}");
 		    stringBuilder.AppendLine($"\twind: {_item.Wind.Speed} {_item.Units.Speed}, direction: {_item.Wind.Direction}°");
+            stringBuilder.AppendLine($"\tatmospheric pressure: {_item.Atmosphere.Pressure} {_item.Units.Pressure}, trend: {pressureTrend}");
 		    stringBuilder.AppendLine("forecast:");
 		    stringBuilder.AppendLine(
 			    $"\t{_item.Forecasts[1].Day}, {_item.Forecasts[1].Date}: {_item.Forecasts[1].HighTemperature}/{_item.Forecasts[1].LowTemperature} °{_item.Units.Temperature}");
