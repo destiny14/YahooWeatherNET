@@ -29,7 +29,7 @@ public class Main
   {
     // Create a new weather report for the desired location. Note that this call has to be made asynchronously,
     // because the location lookup is a call to the weather API. If you already have a WOEID, use .CreateReport("the woeid");
-    WeatherReport report = await YahooWeatherProvider.CreateReportFromLocation("Cologne");
+    WeatherReport report = await m_weatherProvider.CreateReportFromLocation("Cologne");
     
     // Query the current weather conditions.
     // This call can throw an UnknownWoeidException and a WeatherParsingException. These should be caught.
